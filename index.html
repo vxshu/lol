@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Basic HTML, CSS, JS Website">
+    <title>Surya Forgiveness Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
+            background-image: url('6.jpg'); /* Add the path to your background image here */
+            background-size: cover; /* Ensure the image covers the entire background */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent tiling */
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1; /* Ensure it appears above the background */
+        }
+
+        .container img {
+            width: 90px; /* Reduced size of images (30% of the original size) */
+            border-radius: 8px;
+        }
+
+        .container h2 {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .button-group {
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .yes-button:hover {
+            background-color: #0056b3;
+        }
+
+        .no-button {
+            background-color: #dc3545;
+            position: relative; /* Set position to relative */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .input-section {
+            margin-top: 20px;
+        }
+
+        .input-section input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .input-section button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+        .input-section button:hover {
+            background-color: #218838;
+        }
+
+        .moving-image {
+            position: absolute;
+            width: 90px; /* Reduced size of images (30% of the original size) */
+        }
+
+        #nextButton {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #nextButton:hover {
+            background-color: #0056b3;
+        }
+
+        /* New Section Style */
+        #loveYouSection {
+            font-size: 24px;
+            color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            display: none; /* Hide initially */
+        }
+
+        #loveText {
+            font-size: 24px;
+            color: #ff004d;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        /* Counter style */
+        #counter {
+            font-size: 24px;
+            color: #000;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <!-- Initial Page Content -->
+        <img src="8.png" alt="Surya Image">
+        <h2>Kya aapne Surya ko maaf kar diya?</h2>
+        <div class="button-group">
+            <button class="yes-button" id="yesButton">Yes</button>
+            <button class="no-button" id="noButton">No</button>
+        </div>
+    </div>
+
+    <!-- New Page Content: Love Calculator -->
+    <div class="container hidden" id="calculatorContainer">
+        <h2>How much Suryansh Singh loves you calculator</h2>
+        <div class="input-section">
+            <label for="loveInput">Enter a value between 0 and 100:</label><br>
+            <input type="number" id="loveInput" min="0" max="100" placeholder="0-100"><br>
+            <button id="calculateButton">Calculate</button>
+            <p id="resultMessage" class="hidden"></p>
+            <button id="nextButton" class="hidden">Next</button>
+        </div>
+    </div>
+
+    <!-- Final Page Content: Moving Images -->
+    <div class="container hidden" id="movingImagesContainer">
+        <h2>Us hai <3</h2>
+        <div id="movingImagesArea">
+            <img src="1.jpeg" class="moving-image" alt="Random Image 1">
+            <img src="2.jpeg" class="moving-image" alt="Random Image 2">
+            <img src="3.jpeg" class="moving-image" alt="Random Image 3">
+            <img src="4.jpeg" class="moving-image" alt="Random Image 4">
+            <img src="5.jpeg" class="moving-image" alt="Random Image 5">
+        </div>
+        <button id="nextToLoveYouButton">Next</button> <!-- New Next Button -->
+    </div>
+
+    <!-- New Section: Repeated "I Love You" Messages -->
+    <div id="loveYouSection">
+        <h2>Repeatedly Saying "I Love You"</h2>
+        <div id="loveTextContainer"></div>
+        <div id="counter">Count: 0</div> <!-- Counter for "I Love You" -->
+    </div>
+
+    <!-- Background Music with Controls -->
+    <audio id="backgroundMusic" src="s.mp3" autoplay loop controls></audio>
+
+    <script>
+        // Get the elements
+        const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+        const mainContainer = document.getElementById('mainContainer');
+        const calculatorContainer = document.getElementById('calculatorContainer');
+        const calculateButton = document.getElementById('calculateButton');
+        const resultMessage = document.getElementById('resultMessage');
+        const nextButton = document.getElementById('nextButton');
+        const movingImagesContainer = document.getElementById('movingImagesContainer');
+        const movingImages = document.querySelectorAll('.moving-image');
+        const nextToLoveYouButton = document.getElementById('nextToLoveYouButton'); // New Next Button
+        const loveYouSection = document.getElementById('loveYouSection');
+        const loveTextContainer = document.getElementById('loveTextContainer');
+        const counterDisplay = document.getElementById('counter'); // Counter display element
+
+        // Move "No" button randomly within viewport
+        noButton.addEventListener('mouseover', function() {
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+            const randomX = Math.floor(Math.random() * (viewportWidth - buttonWidth));
+            const randomY = Math.floor(Math.random() * (viewportHeight - buttonHeight));
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+        });
+
+        // Show calculator page when "Yes" button is clicked
+        yesButton.addEventListener('click', function() {
+            mainContainer.classList.add('hidden'); // Hide the initial page content
+            calculatorContainer.classList.remove('hidden'); // Show the calculator page
+        });
+
+        // Show calculation result and the "Next" button
+        calculateButton.addEventListener('click', function() {
+            const loveInputValue = document.getElementById('loveInput').value;
+            if (loveInputValue >= 0 && loveInputValue <= 100) {
+                resultMessage.textContent = `Suryansh loves you 9999999999% more!`;
+                resultMessage.classList.remove('hidden'); // Show the result message
+                nextButton.classList.remove('hidden'); // Show the next button
+            } else {
+                alert('Please enter a value between 0 and 100.');
+            }
+        });
+
+        // Show moving images page when "Next" button is clicked
+        nextButton.addEventListener('click', function() {
+            calculatorContainer.classList.add('hidden'); // Hide calculator container
+            movingImagesContainer.classList.remove('hidden'); // Show moving images container
+
+            // Position the images randomly
+            movingImages.forEach((image) => {
+                image.style.left = `${Math.random() * (window.innerWidth - image.offsetWidth)}px`;
+                image.style.top = `${Math.random() * (window.innerHeight - image.offsetHeight)}px`;
+
+                // Increase the speed range for faster movement
+                image.dataset.dx = (Math.random() * 10) + 3; // Random horizontal speed between 3-13
+                image.dataset.dy = (Math.random() * 10) + 3; // Random vertical speed between 3-13
+                image.dataset.directionX = Math.random() < 0.5 ? 1 : -1; // Direction: 1 = right, -1 = left
+                image.dataset.directionY = Math.random() < 0.5 ? 1 : -1; // Direction: 1 = down, -1 = up
+            });
+
+            // Start moving images
+            setInterval(() => {
+                movingImages.forEach((image) => {
+                    let currentX = parseFloat(image.style.left);
+                    let currentY = parseFloat(image.style.top);
+
+                    let dx = parseFloat(image.dataset.dx);
+                    let dy = parseFloat(image.dataset.dy);
+
+                    let directionX = parseInt(image.dataset.directionX);
+                    let directionY = parseInt(image.dataset.directionY);
+
+                    // Update position
+                    let newX = currentX + dx * directionX;
+                    let newY = currentY + dy * directionY;
+
+                    // Check for boundary collision and reverse direction if needed
+                    if (newX <= -100 || newX >= window.innerWidth - image.offsetWidth) {
+                        image.dataset.directionX *= -1;
+                    }
+                    if (newY <= -500 || newY >= window.innerHeight - image.offsetHeight) {
+                        image.dataset.directionY *= -1;
+                    }
+
+                    // Apply new position
+                    image.style.left = `${newX}px`;
+                    image.style.top = `${newY}px`;
+                });
+            }, 30); // Update every 30ms for smoother animation
+        });
+
+        // Show "I Love You" section when "Next" button is clicked
+        nextToLoveYouButton.addEventListener('click', function() {
+            movingImagesContainer.classList.add('hidden'); // Hide moving images container
+            loveYouSection.style.display = 'block'; // Show "I Love You" section
+
+            let loveCounter = 0; // Initialize love counter
+
+            // Continuously add "I Love You" messages
+            setInterval(() => {
+                loveCounter++; // Increment the counter
+                const loveText = document.createElement('div');
+                loveText.id = 'loveText';
+                loveText.textContent = `I Love You ${loveCounter}!`; // Updated format
+                loveTextContainer.appendChild(loveText);
+                counterDisplay.textContent = `Count: ${loveCounter}`; // Update the counter display
+            }, 200); // Add a new "I Love You" every 500 milliseconds
+        });
+
+        // "No" button functionality (back to initial state)
+        noButton.addEventListener('click', function() {
+            alert("You can't say no to love!"); // Message when "No" button is clicked
+        });
+    </script>
+</body>
+</html>
